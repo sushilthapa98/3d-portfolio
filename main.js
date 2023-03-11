@@ -23,6 +23,7 @@ let mixer;
 let isMobile = window.matchMedia('(max-width: 992px)').matches;
 let canvas = document.querySelector('.experience-canvas');
 const loaderWrapper = document.getElementById('loader-wrapper');
+// const cursor = document.querySelector('.cursor');
 let clipNames = [
   'fan_rotation',
   'fan_rotation.001',
@@ -95,10 +96,9 @@ const renderer = new THREE.WebGLRenderer({
   antialias: true,
 });
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(window.devicePixelRatio);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-// renderer.toneMapping = THREE.CineonToneMapping;
-// renderer.toneMappingExposure = 1.5;
 
 // COMPOSER
 // const renderScene = new RenderPass(scene, camera);
@@ -157,7 +157,7 @@ gltfLoader.load(
   function (room) {
     // load video
     const video = document.createElement('video');
-    video.src = 'textures/kda.mp4';
+    video.src = 'textures/arcane.mp4';
     video.muted = true;
     video.playsInline = true;
     video.autoplay = true;
@@ -198,22 +198,20 @@ gltfLoader.load(
       if (child.name === 'CPU') {
         child.children[0].material = new THREE.MeshPhysicalMaterial();
         child.children[0].material.roughness = 0;
-        child.children[0].material.color.set(0xaaaaaa);
+        child.children[0].material.color.set(0x999999);
         child.children[0].material.ior = 3;
-        child.children[0].material.transmission = 1;
-        child.children[0].material.opacity = 1;
+        child.children[0].material.transmission = 2;
+        child.children[0].material.opacity = 0.8;
         child.children[0].material.depthWrite = false;
         child.children[0].material.depthTest = false;
         child.children[1].material = new THREE.MeshPhysicalMaterial();
         child.children[1].material.roughness = 0;
-        child.children[1].material.color.set(0xaaaaaa);
+        child.children[1].material.color.set(0x999999);
         child.children[1].material.ior = 3;
         child.children[1].material.transmission = 1;
-        child.children[1].material.opacity = 1;
+        child.children[1].material.opacity = 0.8;
         child.children[1].material.depthWrite = false;
         child.children[1].material.depthTest = false;
-        // child.children[0].visible = false;
-        // child.children[1].visible = false;
       }
 
       if (child.name === 'Book') {
@@ -230,6 +228,7 @@ gltfLoader.load(
     });
 
     scene.add(room.scene);
+    animate();
 
     // add animation
     mixer = new THREE.AnimationMixer(room.scene);
@@ -243,7 +242,6 @@ gltfLoader.load(
     });
 
     loadIntroText();
-    animate();
 
     // add event listeners
     logoListener();
@@ -274,19 +272,19 @@ roomLight.shadow.mapSize.width = 2048;
 roomLight.shadow.mapSize.height = 2048;
 roomLight.shadow.camera.far = 2.5;
 // roomLight.shadow.camera.fov = 100;
-roomLight.shadow.bias = -0.001;
+roomLight.shadow.bias = -0.002;
 scene.add(roomLight);
 // light for pc fans
-const fanLight1 = new THREE.PointLight(0xff0000, 20, 0.2);
-const fanLight2 = new THREE.PointLight(0x00ff00, 10, 0.1);
-const fanLight3 = new THREE.PointLight(0x00ff00, 10, 0.2);
-const fanLight4 = new THREE.PointLight(0x00ff00, 10, 0.2);
-const fanLight5 = new THREE.PointLight(0x00ff00, 10, 0.05);
+const fanLight1 = new THREE.PointLight(0xff0000, 30, 0.2);
+const fanLight2 = new THREE.PointLight(0x00ff00, 30, 0.12);
+const fanLight3 = new THREE.PointLight(0x00ff00, 30, 0.2);
+const fanLight4 = new THREE.PointLight(0x00ff00, 30, 0.2);
+const fanLight5 = new THREE.PointLight(0x00ff00, 30, 0.05);
 fanLight1.position.set(0, 0.29, -0.29);
-fanLight2.position.set(-0.16, 0.29, -0.29);
-fanLight3.position.set(0.2, 0.29, -0.29);
-fanLight4.position.set(0.2, 0.19, -0.29);
-fanLight5.position.set(0.2, 0.08, -0.29);
+fanLight2.position.set(-0.15, 0.29, -0.29);
+fanLight3.position.set(0.21, 0.29, -0.29);
+fanLight4.position.set(0.21, 0.19, -0.29);
+fanLight5.position.set(0.21, 0.08, -0.29);
 scene.add(fanLight1);
 scene.add(fanLight2);
 scene.add(fanLight3);
@@ -334,7 +332,7 @@ scene.add(pointLight4);
 // scene.add(shadowCameraHelper);
 // const rectLightHelper = new RectAreaLightHelper(keyboardLight);
 // scene.add(rectLightHelper);
-// const pointLightHelper = new THREE.PointLightHelper(pointLight, 0.03);
+// const pointLightHelper = new THREE.PointLightHelper(fanLight3, 0.03);
 // scene.add(pointLightHelper);
 
 // ADD GUI
@@ -433,23 +431,8 @@ function switchTheme(themeType) {
     });
 
     // fan lights
-    gsap.to(fanLight2, {
-      intensity: 20,
-    });
-    gsap.to(fanLight3, {
-      intensity: 20,
-    });
-    gsap.to(fanLight4, {
-      intensity: 20,
-    });
     gsap.to(fanLight5, {
-      intensity: 20,
-    });
-    gsap.to(fanLight2, {
-      distance: 0.15,
-    });
-    gsap.to(fanLight5, {
-      distance: 0.08,
+      distance: 0.07,
     });
 
     // text color
@@ -515,21 +498,6 @@ function switchTheme(themeType) {
     });
 
     // fan light
-    gsap.to(fanLight2, {
-      intensity: 10,
-    });
-    gsap.to(fanLight3, {
-      intensity: 10,
-    });
-    gsap.to(fanLight4, {
-      intensity: 10,
-    });
-    gsap.to(fanLight5, {
-      intensity: 10,
-    });
-    gsap.to(fanLight2, {
-      distance: 0.1,
-    });
     gsap.to(fanLight5, {
       distance: 0.05,
     });
@@ -842,32 +810,32 @@ function initResponsive(roomScene) {
   }
 }
 
-// update camera, renderer on resize
-window.addEventListener('resize', function () {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-});
-
 // close button
-document.getElementById('close-btn').addEventListener('click', function (e) {
+document.getElementById('close-btn').addEventListener('click', (e) => {
   e.preventDefault();
   resetCamera();
 });
 
 // contact menu
-document.getElementById('contact-btn').addEventListener('click', function (e) {
+document.getElementById('contact-btn').addEventListener('click', (e) => {
   e.preventDefault();
   document
     .querySelector('.contact-menu__dropdown')
     .classList.toggle('contact-menu__dropdown--open');
 });
 
-document.addEventListener('mouseup', function (e) {
+document.addEventListener('mouseup', (e) => {
   const container = document.querySelector('.contact-menu');
   if (!container.contains(e.target)) {
     container
       .querySelector('.contact-menu__dropdown')
       .classList.remove('contact-menu__dropdown--open');
   }
+});
+
+// update camera, renderer on resize
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
 });
