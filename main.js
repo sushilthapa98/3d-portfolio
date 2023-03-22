@@ -2,16 +2,12 @@ import './style.css';
 import * as THREE from 'three';
 import * as dat from 'dat.gui';
 import gsap from 'gsap';
+import Stats from 'three/addons/libs/stats.module.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
-import { RectAreaLightHelper } from 'three/addons/helpers/RectAreaLightHelper.js';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
-import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
-import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 
 // VARIABLES
 let theme = 'light';
@@ -23,7 +19,6 @@ let mixer;
 let isMobile = window.matchMedia('(max-width: 992px)').matches;
 let canvas = document.querySelector('.experience-canvas');
 const loaderWrapper = document.getElementById('loader-wrapper');
-// const cursor = document.querySelector('.cursor');
 let clipNames = [
   'fan_rotation',
   'fan_rotation.001',
@@ -100,39 +95,9 @@ renderer.setPixelRatio(window.devicePixelRatio);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-// COMPOSER
-// const renderScene = new RenderPass(scene, camera);
-// const bloomPass = new UnrealBloomPass(
-//   new THREE.Vector2(window.innerWidth, window.innerHeight),
-//   1.6,
-//   0.1,
-//   0.1
-// );
-// bloomPass.threshold = 0;
-// bloomPass.strength = 0.5;
-// bloomPass.radius = 0;
-// const bloomComposer = new EffectComposer(renderer);
-// bloomComposer.renderToScreen = false;
-// bloomComposer.addPass(renderScene);
-// bloomComposer.addPass(bloomPass);
-
-// const finalPass = new ShaderPass(
-//   new THREE.ShaderMaterial({
-//     uniforms: {
-//       baseTexture: { value: null },
-//       bloomTexture: { value: bloomComposer.renderTarget2.texture },
-//     },
-//     vertexShader: document.getElementById('vertexshader').textContent,
-//     fragmentShader: document.getElementById('fragmentshader').textContent,
-//     defines: {},
-//   }),
-//   'baseTexture'
-// );
-// finalPass.needsSwap = true;
-// finalComposer.addPass(finalPass);
-
-// const finalComposer = new EffectComposer(renderer);
-// finalComposer.addPass(renderScene);
+// STATS
+// const stats = new Stats();
+// document.querySelector('.experience').appendChild(stats.dom);
 
 // CONTROLS
 const controls = new OrbitControls(camera, renderer.domElement);
@@ -172,7 +137,7 @@ gltfLoader.load(
 
     room.scene.children.forEach((child) => {
       // disable shadow by wall
-      if (child.name !== 'Cube') {
+      if (child.name !== 'Wall') {
         child.castShadow = true;
       }
       child.receiveShadow = true;
@@ -216,14 +181,20 @@ gltfLoader.load(
 
       if (child.name === 'Book') {
         bookCover = child.children[0];
+
+        // adding texture to book
+        const bookTexture = new THREE.TextureLoader().load(
+          'textures/book-inner.jpg'
+        );
+        bookTexture.flipY = false;
+        child.material = new THREE.MeshStandardMaterial({
+          color: 0xffffff,
+          map: bookTexture,
+        });
       }
 
       if (child.name === 'SwitchBoard') {
         lightSwitch = child.children[0];
-      }
-
-      if (child.name === 'CPU') {
-        postprocess(child.children);
       }
     });
 
@@ -254,7 +225,6 @@ gltfLoader.load(
     if (xhr.loaded === xhr.total) {
       loaderWrapper.style.display = 'none';
     }
-    // console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
   },
   function (error) {
     console.error(error);
@@ -274,7 +244,7 @@ roomLight.shadow.camera.far = 2.5;
 // roomLight.shadow.camera.fov = 100;
 roomLight.shadow.bias = -0.002;
 scene.add(roomLight);
-// light for pc fans
+// add light for pc fans
 const fanLight1 = new THREE.PointLight(0xff0000, 30, 0.2);
 const fanLight2 = new THREE.PointLight(0x00ff00, 30, 0.12);
 const fanLight3 = new THREE.PointLight(0x00ff00, 30, 0.2);
@@ -290,7 +260,7 @@ scene.add(fanLight2);
 scene.add(fanLight3);
 scene.add(fanLight4);
 scene.add(fanLight5);
-// point light
+// add point light for text on wall
 const pointLight1 = new THREE.PointLight(0xff0000, 0, 1.1);
 const pointLight2 = new THREE.PointLight(0xff0000, 0, 1.1);
 const pointLight3 = new THREE.PointLight(0xff0000, 0, 1.1);
@@ -303,25 +273,6 @@ scene.add(pointLight1);
 scene.add(pointLight2);
 scene.add(pointLight3);
 scene.add(pointLight4);
-// light for mobile screen
-// const mobileScreenLight = new THREE.PointLight(0xffffff, 0.6, 0.5);
-// mobileScreenLight.position.set(0.2, 0.08, 0.18);
-// scene.add(mobileScreenLight);
-// light for keyboard
-// const keyboardLight = new THREE.RectAreaLight(0xff0000, 0.7, 0.1, 0.34);
-// keyboardLight.position.set(0.085, 0.028, 0.23);
-// keyboardLight.rotation.x = Math.PI / 2;
-// keyboardLight.rotation.y = -0.02;
-// scene.add(keyboardLight);
-// light for table
-// const rectLight = new THREE.RectAreaLight(0xff0000, 1, 0.47, 0.94);
-// rectLight.position.set(0, -0.01, 0.14);
-// rectLight.rotation.x = -Math.PI / 2;
-// scene.add(rectLight);
-// const rectLight2 = new THREE.RectAreaLight(0xff0000, 2.5, 0.47, 1.5);
-// rectLight2.position.set(0, 1.6, 0.14);
-// rectLight2.rotation.x = -Math.PI / 2;
-// scene.add(rectLight2);
 
 // SETUP HELPERS
 // const axesHelper = new THREE.AxesHelper(5);
@@ -330,8 +281,6 @@ scene.add(pointLight4);
 // scene.add(gridHelper);
 // const shadowCameraHelper = new THREE.CameraHelper(roomLight.shadow.camera);
 // scene.add(shadowCameraHelper);
-// const rectLightHelper = new RectAreaLightHelper(keyboardLight);
-// scene.add(rectLightHelper);
 // const pointLightHelper = new THREE.PointLightHelper(fanLight3, 0.03);
 // scene.add(pointLightHelper);
 
@@ -360,7 +309,7 @@ function animate() {
     mixer.update(clock.getDelta());
   }
   renderer.render(scene, camera);
-  // finalComposer.render();
+  // stats.update();
 }
 
 function loadIntroText() {
@@ -399,11 +348,6 @@ function loadIntroText() {
     subtitleText.position.set(-0.255, 0.5, 0.5);
     scene.add(subtitleText);
   });
-}
-
-function postprocess(items) {
-  // const fan = items.find((item) => item.name === 'Fan');
-  // console.log(fan);
 }
 
 function switchTheme(themeType) {

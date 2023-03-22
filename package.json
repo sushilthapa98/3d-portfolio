@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "dat.gui": "^0.7.9",
-    "events": "^3.3.0",
     "gsap": "^3.11.4",
     "three": "^0.149.0"
   }

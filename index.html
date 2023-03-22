@@ -41,32 +41,22 @@
     />
     <link rel="stylesheet" href="./style.css" />
     <title>Sushil Thapa - Creative Developer from Nepal</title>
-    <!-- Google Tag Manager -->
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-3Z4W1TNEFY"
+    ></script>
     <script>
-      (function (w, d, s, l, i) {
-        w[l] = w[l] || [];
-        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
-        var f = d.getElementsByTagName(s)[0],
-          j = d.createElement(s),
-          dl = l != 'dataLayer' ? '&l=' + l : '';
-        j.async = true;
-        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-        f.parentNode.insertBefore(j, f);
-      })(window, document, 'script', 'dataLayer', 'GTM-K75WL6G');
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+
+      gtag('config', 'G-3Z4W1TNEFY');
     </script>
-    <!-- End Google Tag Manager -->
   </head>
   <body class="light-theme">
-    <!-- Google Tag Manager (noscript) -->
-    <noscript
-      ><iframe
-        src="https://www.googletagmanager.com/ns.html?id=GTM-K75WL6G"
-        height="0"
-        width="0"
-        style="display: none; visibility: hidden"
-      ></iframe
-    ></noscript>
-    <!-- End Google Tag Manager (noscript) -->
     <div class="experience">
       <canvas class="experience-canvas"></canvas>
     </div>
@@ -317,46 +307,6 @@
       </section>
     </main>
     <footer>2023 portfolio - designed & developed by Sushil Thapa</footer>
-    <!-- <div class="cursor">
-      <div class="cursor-circle"></div>
-    </div> -->
-    <!-- <script>
-      function copyText(text) {
-        if (!text) return;
-        const input = document.createElement('input');
-        input.value = text;
-        input.select();
-        input.setSelectionRange(0, 99999);
-        navigator.clipboard.writeText(input.value);
-        alert('Email copied to clipboard!');
-      }
-    </script> -->
-    <!-- <script type="x-shader/x-vertex" id="vertexshader">
-
-      varying vec2 vUv;
-
-      void main() {
-
-      	vUv = uv;
-
-      	gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-
-      }
-    </script>
-
-    <script type="x-shader/x-fragment" id="fragmentshader">
-
-      uniform sampler2D baseTexture;
-      uniform sampler2D bloomTexture;
-
-      varying vec2 vUv;
-
-      void main() {
-
-      	gl_FragColor = ( texture2D( baseTexture, vUv ) + vec4( 1.0 ) * texture2D( bloomTexture, vUv ) );
-
-      }
-    </script> -->
     <script type="module" src="/main.js"></script>
   </body>
 </html>
