@@ -28,19 +28,19 @@ let clipNames = [
 ];
 let projects = [
   {
-    image: 'textures/project-spaze.webp',
+    image: '/textures/project-spaze.webp',
     url: 'https://www.spaze.social/',
   },
   {
-    image: 'textures/project-myteachers.jpg',
+    image: '/textures/project-myteachers.jpg',
     url: 'https://myteachers.com.au/',
   },
   {
-    image: 'textures/project-wholesale.jpg',
+    image: '/textures/project-wholesale.jpg',
     url: 'https://wholesale.com.np/',
   },
   {
-    image: 'textures/project-pelotero.jpg',
+    image: '/textures/project-pelotero.jpg',
     url: 'https://www.peloterosenlaweb.com/',
   },
 ];
@@ -118,11 +118,11 @@ dracoLoader.setDecoderPath('/draco/');
 const gltfLoader = new GLTFLoader();
 gltfLoader.setDRACOLoader(dracoLoader);
 gltfLoader.load(
-  'models/room.glb',
+  '/models/room.glb',
   function (room) {
     // load video
     const video = document.createElement('video');
-    video.src = 'textures/arcane.mp4';
+    video.src = '/textures/arcane.mp4';
     video.muted = true;
     video.playsInline = true;
     video.autoplay = true;
@@ -184,7 +184,7 @@ gltfLoader.load(
 
         // adding texture to book
         const bookTexture = new THREE.TextureLoader().load(
-          'textures/book-inner.jpg'
+          '/textures/book-inner.jpg'
         );
         bookTexture.flipY = false;
         child.material = new THREE.MeshStandardMaterial({
