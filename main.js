@@ -120,6 +120,9 @@ gltfLoader.setDRACOLoader(dracoLoader);
 gltfLoader.load(
   'models/room.glb',
   function (room) {
+    // hide loader on loade
+    loaderWrapper.style.display = 'none';
+
     // load video
     const video = document.createElement('video');
     video.src = 'textures/arcane.mp4';
@@ -220,11 +223,6 @@ gltfLoader.load(
     projectsMenuListener();
     init3DWorldClickListeners();
     initResponsive(room.scene);
-  },
-  function (xhr) {
-    if (xhr.loaded === xhr.total) {
-      loaderWrapper.style.display = 'none';
-    }
   },
   function (error) {
     console.error(error);
