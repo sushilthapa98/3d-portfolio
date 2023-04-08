@@ -114,7 +114,7 @@ controls.update();
 // LOAD MODEL & ASSET
 // const loadingManager = new THREE.LoadingManager();
 const dracoLoader = new DRACOLoader();
-dracoLoader.setDecoderPath('/draco/');
+dracoLoader.setDecoderPath('draco/');
 const gltfLoader = new GLTFLoader();
 gltfLoader.setDRACOLoader(dracoLoader);
 gltfLoader.load(
