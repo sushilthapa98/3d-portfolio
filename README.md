@@ -1,5 +1,17 @@
 # 3d-portfolio
+
 Personal Portfolio website designed using ThreeJS
 
-1. `npm install` to install dependencies.  
-2. `npm run dev` to start the development server.
+Install Dependencies
+
+```sh
+npm install
+```
+
+Start the development server
+
+```sh
+npm run dev
+```
+
+Preview: https://chimerical-sawine-e5d69e.netlify.app/
