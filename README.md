@@ -14,4 +14,4 @@ Start the development server
 npm run dev
 ```
 
-Preview: https://chimerical-sawine-e5d69e.netlify.app/
+Preview: https://sushil-thapa.com.np/
