@@ -151,6 +151,20 @@ gltfLoader.load(
           if (innerChild.name !== 'Book001' && innerChild.name !== 'Switch') {
             innerChild.castShadow = true;
           }
+
+          // add texture to book cover
+          if(innerChild.name === 'Book001') {
+            const bookCoverTexture = new THREE.TextureLoader().load(
+              'textures/book-cover.png'
+            );
+            bookCoverTexture.flipY = false;
+            innerChild.material = new THREE.MeshStandardMaterial({
+              side: THREE.DoubleSide,
+              color: 0xffffff,
+              map: bookCoverTexture,
+            });
+          }
+
           innerChild.receiveShadow = true;
         });
       }
