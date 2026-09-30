@@ -173,7 +173,13 @@ gltfLoader.load(
         child.children[0].material = new THREE.MeshBasicMaterial({
           map: videoTexture,
         });
-        video.play();
+        // browsers may refuse or pause playback in a background tab,
+        // so ignore that and start again once the page is visible
+        const playVideo = () => video.play().catch(() => {});
+        playVideo();
+        document.addEventListener('visibilitychange', () => {
+          if (!document.hidden && video.paused) playVideo();
+        });
       }
 
       // transparent texture for glass
