@@ -1,0 +1,10 @@
+// Cloudflare Worker that serves the Vite build output (dist/) as static assets.
+// Cloudflare builds it with `npm run build`, then deploys with `npx wrangler deploy`.
+{
+  "$schema": "https://unpkg.com/wrangler/config-schema.json",
+  "name": "3d-portfolio",
+  "compatibility_date": "2026-09-30",
+  "assets": {
+    "directory": "./dist"
+  }
+}
