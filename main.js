@@ -244,6 +244,7 @@ gltfLoader.load(
     init3DWorldClickListeners();
     initResponsive(room.scene);
   },
+  undefined,
   function (error) {
     console.error(error);
   }
